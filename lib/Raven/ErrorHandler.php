@@ -21,6 +21,9 @@
  * @package raven
  */
 
+// TODO(dcramer): deprecate default error types in favor of runtime configuration
+// unless a reason can be determined that making them dynamic is better. They
+// currently are not used outside of the fatal handler.
 class Raven_ErrorHandler
 {
     private $old_exception_handler;
@@ -29,10 +32,20 @@ class Raven_ErrorHandler
     private $call_existing_error_handler = false;
     private $reservedMemory;
     private $send_errors_last = false;
-    private $error_types = -1;
 
     /**
      * @var array
+<<<<<<< HEAD
+=======
+     * Error types which should be processed by the handler.
+     * A 'null' value implies "whatever error_reporting is at time of error".
+     */
+    private $error_types = null;
+
+    /**
+     * @deprecated
+     * @var array
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
      * Error types that can be processed by the handler
      */
     private $validErrorTypes = array(
@@ -54,6 +67,10 @@ class Raven_ErrorHandler
     );
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
      * @var array
      * The default Error types that are always processed by the handler. Can be set during construction.
      */
@@ -67,12 +84,21 @@ class Raven_ErrorHandler
         E_STRICT,
     );
 
+<<<<<<< HEAD
     public function __construct($client, $send_errors_last = false, $default_error_types = null)
+=======
+    public function __construct($client, $send_errors_last = false, $default_error_types = null,
+                                $error_types = null)
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     {
         $this->client = $client;
         if ($default_error_types !== null) {
             $this->defaultErrorTypes = $default_error_types;
         }
+<<<<<<< HEAD
+=======
+        $this->error_types = $error_types;
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         register_shutdown_function(array($this, 'detectShutdown'));
         if ($send_errors_last) {
             $this->send_errors_last = true;
@@ -92,6 +118,7 @@ class Raven_ErrorHandler
 
     public function handleError($code, $message, $file = '', $line = 0, $context=array())
     {
+<<<<<<< HEAD
         if ($this->error_types & $code & error_reporting()) {
             $e = new ErrorException($message, 0, $code, $file, $line);
             $this->handleException($e, true, $context);
@@ -99,6 +126,20 @@ class Raven_ErrorHandler
 
         if ($this->call_existing_error_handler) {
             if ($this->old_error_handler) {
+=======
+        if (error_reporting() !== 0) {
+            $error_types = $this->error_types;
+            if ($error_types === null) {
+                $error_types = error_reporting();
+            }
+            if ($error_types & $code) {
+                $e = new ErrorException($message, 0, $code, $file, $line);
+                $this->handleException($e, true, $context);
+            }
+        }
+        if ($this->call_existing_error_handler) {
+            if ($this->old_error_handler !== null) {
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
                 return call_user_func($this->old_error_handler, $code, $message, $file, $line, $context);
             } else {
                 return false;
@@ -110,21 +151,36 @@ class Raven_ErrorHandler
      * Nothing by default, use it in child classes for catching other types of errors
      * Only constants from $this->validErrorTypes can be used
      *
+<<<<<<< HEAD
      * @return array
      */
+=======
+     * @deprecated
+     * @return array
+     */
+
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     protected function getAdditionalErrorTypesToProcess()
     {
         return array();
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
      * @return array
      */
     private function getErrorTypesToProcess()
     {
         $additionalErrorTypes = array_intersect($this->getAdditionalErrorTypesToProcess(), $this->validErrorTypes);
         // array_unique so bitwise "or" operation wouldn't fail if some error type gets repeated
+<<<<<<< HEAD
         return array_unique($this->defaultErrorTypes + $additionalErrorTypes);
+=======
+        return array_unique(array_merge($this->defaultErrorTypes, $additionalErrorTypes));
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     }
 
     public function handleFatalError()
@@ -155,10 +211,24 @@ class Raven_ErrorHandler
         $this->call_existing_exception_handler = $call_existing_exception_handler;
     }
 
-    public function registerErrorHandler($call_existing_error_handler = true, $error_types = -1)
+    /**
+     * Register a handler which will intercept standard PHP errors and report them to the
+     * associated Sentry client.
+     *
+     * @return array
+     */
+    //
+    public function registerErrorHandler($call_existing_error_handler = true, $error_types = null)
     {
+<<<<<<< HEAD
         $this->error_types = $error_types;
         $this->old_error_handler = set_error_handler(array($this, 'handleError'), error_reporting());
+=======
+        if ($error_types !== null) {
+            $this->error_types = $error_types;
+        }
+        $this->old_error_handler = set_error_handler(array($this, 'handleError'), E_ALL);
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->call_existing_error_handler = $call_existing_error_handler;
     }
 

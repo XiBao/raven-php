@@ -9,91 +9,71 @@
  * file that was distributed with this source code.
  */
 
-class Raven_SerializerTestObject
-{
-    private $foo = 'bar';
-}
-
-class Raven_Tests_SerializerTest extends PHPUnit_Framework_TestCase
+class Raven_Tests_ReprSerializerTest extends PHPUnit_Framework_TestCase
 {
     public function testArraysAreArrays()
     {
-        $serializer = new Raven_Serializer();
+        $serializer = new Raven_ReprSerializer();
         $input = array(1, 2, 3);
-<<<<<<< HEAD
-        $result = Raven_Serializer::serialize($input);
-=======
         $result = $serializer->serialize($input);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->assertEquals(array('1', '2', '3'), $result);
     }
 
     public function testObjectsAreStrings()
     {
-        $serializer = new Raven_Serializer();
+        $serializer = new Raven_ReprSerializer();
         $input = new Raven_StacktraceTestObject();
-<<<<<<< HEAD
-        $result = Raven_Serializer::serialize($input);
-=======
         $result = $serializer->serialize($input);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->assertEquals('Object Raven_StacktraceTestObject', $result);
     }
 
     public function testIntsAreInts()
     {
-        $serializer = new Raven_Serializer();
+        $serializer = new Raven_ReprSerializer();
         $input = 1;
         $result = $serializer->serialize($input);
-        $this->assertTrue(is_integer($result));
+        $this->assertTrue(is_string($result));
         $this->assertEquals(1, $result);
-<<<<<<< HEAD
-=======
     }
 
     public function testFloats()
     {
-        $serializer = new Raven_Serializer();
+        $serializer = new Raven_ReprSerializer();
         $input = 1.5;
         $result = $serializer->serialize($input);
-        $this->assertTrue(is_float($result));
-        $this->assertEquals(1.5, $result);
+        $this->assertTrue(is_string($result));
+        $this->assertEquals('1.5', $result);
     }
 
     public function testBooleans()
     {
-        $serializer = new Raven_Serializer();
+        $serializer = new Raven_ReprSerializer();
         $input = true;
         $result = $serializer->serialize($input);
-        $this->assertTrue(is_bool($result));
-        $this->assertEquals(true, $result);
+        $this->assertTrue(is_string($result));
+        $this->assertEquals('true', $result);
 
         $input = false;
         $result = $serializer->serialize($input);
-        $this->assertTrue(is_bool($result));
-        $this->assertEquals(false, $result);
+        $this->assertTrue(is_string($result));
+        $this->assertEquals('false', $result);
     }
 
     public function testNull()
     {
-        $serializer = new Raven_Serializer();
+        $serializer = new Raven_ReprSerializer();
         $input = null;
         $result = $serializer->serialize($input);
-        $this->assertTrue(is_null($result));
-        $this->assertEquals(null, $result);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
+        $this->assertTrue(is_string($result));
+        $this->assertEquals('null', $result);
     }
 
     public function testRecursionMaxDepth()
     {
-        $serializer = new Raven_Serializer();
+        $serializer = new Raven_ReprSerializer();
         $input = array();
         $input[] = &$input;
-<<<<<<< HEAD
-        $result = Raven_Serializer::serialize($input, 3);
-=======
         $result = $serializer->serialize($input, 3);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->assertEquals(array(array(array('Array of length 1'))), $result);
     }
 }

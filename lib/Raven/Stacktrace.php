@@ -76,7 +76,7 @@ class Raven_Stacktrace
                 }
             }
 
-            $frame = array(
+            $data = array(
                 'abs_path' => $abs_path,
                 'filename' => $context['filename'],
                 'lineno' => (int) $context['lineno'],
@@ -97,10 +97,14 @@ class Raven_Stacktrace
                         $cleanVars[$key] = $value;
                     }
                 }
+<<<<<<< HEAD
                 $frame['vars'] = $cleanVars;
+=======
+                $data['vars'] = $cleanVars;
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
             }
 
-            $result[] = $frame;
+            $result[] = $data;
         }
 
         return array_reverse($result);
@@ -169,6 +173,7 @@ class Raven_Stacktrace
 
         $params = $reflection->getParameters();
 
+        $serializer = new Raven_ReprSerializer();
         $args = array();
         foreach ($frame['args'] as $i => $arg) {
             if (isset($params[$i])) {
@@ -180,7 +185,11 @@ class Raven_Stacktrace
                         }
                     }
                 }
+<<<<<<< HEAD
                 $args[$params[$i]->name] = $arg;
+=======
+                $args[$params[$i]->name] = $serializer->serialize($arg);
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
             } else {
                 // TODO: Sentry thinks of these as context locals, so they must be named
                 // Assign the argument by number

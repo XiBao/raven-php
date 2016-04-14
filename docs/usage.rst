@@ -80,6 +80,7 @@ Optional Attributes
 -------------------
 
 With calls to ``captureException`` or ``captureMessage`` additional data
+<<<<<<< HEAD
 can be supplied::
 
   .. code-block:: php
@@ -157,6 +158,84 @@ can be supplied::
                 'email' => 'clever-girl'
             )
         )
+=======
+can be supplied:
+
+.. code-block:: php
+
+    $client->captureException($ex, array('attr' => 'value'))
+
+.. describe:: extra
+
+Additional context for this event. Must be a mapping. Children can be any native JSON type.
+
+.. code-block:: php
+
+    array(
+        'extra' => array('key' => 'value')
+    )
+
+.. describe:: fingerprint
+
+The fingerprint for grouping this event.
+
+.. code-block:: php
+
+    array(
+        'fingerprint' => ['{{ default }}', 'other value']
+    )
+
+.. describe:: level
+
+The level of the event. Defaults to ``error``.
+
+.. code-block:: php
+
+    array(
+        'level' => 'warning'
+    )
+
+Sentry is aware of the following levels:
+
+* debug (the least serious)
+* info
+* warning
+* error
+* fatal (the most serious)
+
+.. describe:: logger
+
+The logger name for the event.
+
+.. code-block:: php
+
+    array(
+        'logger' => 'default'
+    )
+
+.. describe:: tags
+
+Tags to index with this event. Must be a mapping of strings.
+
+.. code-block:: php
+
+    array(
+        'tags' => array('key' => 'value')
+    )
+
+.. describe:: user
+
+The acting user.
+
+.. code-block:: php
+
+    array(
+        'user' => array(
+            'id' => 42,
+            'email' => 'clever-girl'
+        )
+    )
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 
 Testing Your Connection
 -----------------------

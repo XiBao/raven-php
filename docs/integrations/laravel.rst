@@ -11,7 +11,11 @@ To configure logging, pop open your ``bootstrap/app.php`` file, and insert the f
 .. sourcecode:: php
 
     $app->configureMonologUsing(function($monolog) {
+<<<<<<< HEAD
         $client = new Raven_Client('___DSN___')
+=======
+        $client = new Raven_Client('___DSN___');
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 
         $handler = new Monolog\Handler\RavenHandler($client);
         $handler->setFormatter(new Monolog\Formatter\LineFormatter("%message% %context% %extra%\n"));
@@ -26,7 +30,11 @@ To configure logging, pop open your ``app/start/global.php`` file, and insert th
 
 .. sourcecode:: php
 
+<<<<<<< HEAD
     $client = new Raven_Client('___DSN___')
+=======
+    $client = new Raven_Client('___DSN___');
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 
     $handler = new Monolog\Handler\RavenHandler($client);
     $handler->setFormatter(new Monolog\Formatter\LineFormatter("%message% %context% %extra%\n"));
@@ -34,6 +42,27 @@ To configure logging, pop open your ``app/start/global.php`` file, and insert th
     $monolog = Log::getMonolog();
     $monolog->pushHandler($handler);
 
+<<<<<<< HEAD
+=======
+Lumen 5.x
+-----------
+
+To configure logging, pop open your ``bootstrap/app.php`` file, and insert the following:
+
+.. sourcecode:: php
+
+    $app->configureMonologUsing(function($monolog) {
+        $client = new Raven_Client('___DSN___');
+
+        $handler = new Monolog\Handler\RavenHandler($client);
+        $handler->setFormatter(new Monolog\Formatter\LineFormatter("%message% %context% %extra%\n"));
+
+        $monolog->pushHandler($handler);
+
+        return $monolog;
+    });
+
+>>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 Adding Context
 --------------
 
