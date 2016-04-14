@@ -32,8 +32,6 @@ The following settings are available for the client:
             'php_version' => phpversion(),
         )
 
-<<<<<<< HEAD
-=======
 .. describe:: release
 
     The version of your application (e.g. git SHA)
@@ -49,7 +47,6 @@ The following settings are available for the client:
     .. code-block:: php
 
         'environment' => 'production',
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 
 .. describe:: curl_method
 

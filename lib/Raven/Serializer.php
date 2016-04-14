@@ -30,11 +30,7 @@ class Raven_Serializer
      * Serialize an object (recursively) into something safe for data
      * sanitization and encoding.
      */
-<<<<<<< HEAD
-    public static function serialize($value, $max_depth=9, $_depth=0)
-=======
     public function serialize($value, $max_depth=3, $_depth=0)
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     {
         if (is_object($value) || is_resource($value)) {
             return $this->serializeValue($value);

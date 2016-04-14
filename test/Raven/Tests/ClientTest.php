@@ -614,33 +614,6 @@ class Raven_Tests_ClientTest extends PHPUnit_Framework_TestCase
             'foo' => 'bar',
             'biz' => 'baz',
         ), $event['extra']);
-<<<<<<< HEAD
-    }
-
-    public function cb1($data)
-    {
-        $this->assertEquals('test', $data['message']);
-        return false;
-    }
-
-    public function cb2($data)
-    {
-        $this->assertEquals('test', $data['message']);
-        return true;
-    }
-
-    public function testSendCallback()
-    {
-        $client = new Dummy_Raven_Client(array('send_callback' => array($this, 'cb1')));
-        $client->captureMessage('test');
-        $events = $client->getSentEvents();
-        $this->assertEquals(0, count($events));
-
-        $client = new Dummy_Raven_Client(array('send_callback' => array($this, 'cb2')));
-        $client->captureMessage('test');
-        $events = $client->getSentEvents();
-        $this->assertEquals(1, count($events));
-=======
     }
 
     public function cb1($data)
@@ -755,6 +728,5 @@ class Raven_Tests_ClientTest extends PHPUnit_Framework_TestCase
                 'The url is expected to be https because the X-Forwarded header is trusted'
             )
         );
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     }
 }

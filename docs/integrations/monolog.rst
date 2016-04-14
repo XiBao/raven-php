@@ -5,11 +5,7 @@ Monolog supports Sentry out of the box, so you'll just need to configure a handl
 
 .. sourcecode:: php
 
-<<<<<<< HEAD
-    $client = new Raven_Client('___DSN___')
-=======
     $client = new Raven_Client('___DSN___');
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 
     $handler = new Monolog\Handler\RavenHandler($client);
     $handler->setFormatter(new Monolog\Formatter\LineFormatter("%message% %context% %extra%\n"));

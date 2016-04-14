@@ -20,11 +20,7 @@ class Raven_Tests_SerializerTest extends PHPUnit_Framework_TestCase
     {
         $serializer = new Raven_Serializer();
         $input = array(1, 2, 3);
-<<<<<<< HEAD
-        $result = Raven_Serializer::serialize($input);
-=======
         $result = $serializer->serialize($input);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->assertEquals(array('1', '2', '3'), $result);
     }
 
@@ -32,11 +28,7 @@ class Raven_Tests_SerializerTest extends PHPUnit_Framework_TestCase
     {
         $serializer = new Raven_Serializer();
         $input = new Raven_StacktraceTestObject();
-<<<<<<< HEAD
-        $result = Raven_Serializer::serialize($input);
-=======
         $result = $serializer->serialize($input);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->assertEquals('Object Raven_StacktraceTestObject', $result);
     }
 
@@ -47,8 +39,6 @@ class Raven_Tests_SerializerTest extends PHPUnit_Framework_TestCase
         $result = $serializer->serialize($input);
         $this->assertTrue(is_integer($result));
         $this->assertEquals(1, $result);
-<<<<<<< HEAD
-=======
     }
 
     public function testFloats()
@@ -81,7 +71,6 @@ class Raven_Tests_SerializerTest extends PHPUnit_Framework_TestCase
         $result = $serializer->serialize($input);
         $this->assertTrue(is_null($result));
         $this->assertEquals(null, $result);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     }
 
     public function testRecursionMaxDepth()
@@ -89,11 +78,7 @@ class Raven_Tests_SerializerTest extends PHPUnit_Framework_TestCase
         $serializer = new Raven_Serializer();
         $input = array();
         $input[] = &$input;
-<<<<<<< HEAD
-        $result = Raven_Serializer::serialize($input, 3);
-=======
         $result = $serializer->serialize($input, 3);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->assertEquals(array(array(array('Array of length 1'))), $result);
     }
 }

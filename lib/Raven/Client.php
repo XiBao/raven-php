@@ -16,11 +16,7 @@
 
 class Raven_Client
 {
-<<<<<<< HEAD
-    const VERSION = '0.13.0';
-=======
     const VERSION = '0.14.0.dev0';
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     const PROTOCOL = '6';
 
     const DEBUG = 'debug';
@@ -63,10 +59,7 @@ class Raven_Client
         $this->site = Raven_Util::get($options, 'site', $this->_server_variable('SERVER_NAME'));
         $this->tags = Raven_Util::get($options, 'tags', array());
         $this->release = Raven_util::get($options, 'release', null);
-<<<<<<< HEAD
-=======
         $this->environment = Raven_util::get($options, 'environment', null);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $this->trace = (bool) Raven_Util::get($options, 'trace', true);
         $this->timeout = Raven_Util::get($options, 'timeout', 2);
         $this->message_limit = Raven_Util::get($options, 'message_limit', self::MESSAGE_LIMIT);
@@ -82,10 +75,7 @@ class Raven_Client
         $this->ca_cert = Raven_util::get($options, 'ca_cert', $this->get_default_ca_cert());
         $this->verify_ssl = Raven_util::get($options, 'verify_ssl', true);
         $this->curl_ssl_version = Raven_Util::get($options, 'curl_ssl_version');
-<<<<<<< HEAD
-=======
         $this->trust_x_forwarded_proto = Raven_Util::get($options, 'trust_x_forwarded_proto');
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 
         $this->processors = $this->setProcessorsFromOptions($options);
 
@@ -278,7 +268,6 @@ class Raven_Client
                 'file' => $exc->getFile(),
                 'line' => $exc->getLine(),
             );
-<<<<<<< HEAD
 
             array_unshift($trace, $frame_where_exception_thrown);
 
@@ -296,25 +285,6 @@ class Raven_Client
             $exceptions[] = $exc_data;
         } while ($has_chained_exceptions && $exc = $exc->getPrevious());
 
-=======
-
-            array_unshift($trace, $frame_where_exception_thrown);
-
-            // manually trigger autoloading, as it's not done in some edge cases due to PHP bugs (see #60149)
-            if (!class_exists('Raven_Stacktrace')) {
-                spl_autoload_call('Raven_Stacktrace');
-            }
-
-            $exc_data['stacktrace'] = array(
-                'frames' => Raven_Stacktrace::get_stack_info(
-                    $trace, $this->trace, $this->shift_vars, $vars, $this->message_limit
-                ),
-            );
-
-            $exceptions[] = $exc_data;
-        } while ($has_chained_exceptions && $exc = $exc->getPrevious());
-
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $data['message'] = $message;
         $data['exception'] = array(
             'values' => array_reverse($exceptions),
@@ -467,12 +437,9 @@ class Raven_Client
         if ($this->release) {
             $data['release'] = $this->release;
         }
-<<<<<<< HEAD
-=======
         if ($this->environment) {
             $data['environment'] = $this->environment;
         }
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
 
         $data['tags'] = array_merge(
             $this->tags,
@@ -484,14 +451,6 @@ class Raven_Client
             $this->context->extra,
             $data['extra']);
 
-<<<<<<< HEAD
-        // avoid empty arrays (which dont convert to dicts)
-        if (empty($data['extra'])) {
-            unset($data['extra']);
-        }
-        if (empty($data['tags'])) {
-            unset($data['tags']);
-=======
         $serializer = new Raven_Serializer();
         // avoid empty arrays (which dont convert to dicts)
         if (empty($data['extra'])) {
@@ -506,7 +465,6 @@ class Raven_Client
         }
         if (!empty($data['user'])) {
             $data['user'] = $serializer->serialize($data['user']);
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         }
 
         if ((!$stack && $this->auto_log_stacks) || $stack === true) {
@@ -710,12 +668,9 @@ class Raven_Client
         $cmd .= '-d \''. $data .'\' ';
         $cmd .= '\''. $url .'\' ';
         $cmd .= '-m 5 ';  // 5 second timeout for the whole process (connect + send)
-<<<<<<< HEAD
-=======
         if (!$this->verify_ssl) {
             $cmd .= '-k ';
         }
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
         $cmd .= '> /dev/null 2>&1 &'; // ensure exec returns immediately while curl runs in the background
 
         exec($cmd);
@@ -849,17 +804,6 @@ class Raven_Client
             : (!empty($_SERVER['LOCAL_ADDR'])  ? $_SERVER['LOCAL_ADDR']
             : (!empty($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '')));
 
-<<<<<<< HEAD
-        // HTTP_HOST is a client-supplied header that is optional in HTTP 1.0
-        $host = (!empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']
-            : (!empty($_SERVER['LOCAL_ADDR'])  ? $_SERVER['LOCAL_ADDR']
-            : (!empty($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '')));
-
-        return $schema . $host . $_SERVER['REQUEST_URI'];
-    }
-
-    /**
-=======
         $httpS = $this->isHttps() ? 's' : '';
         return "http{$httpS}://{$host}{$_SERVER['REQUEST_URI']}";
     }
@@ -889,7 +833,6 @@ class Raven_Client
     }
 
     /**
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
      * Get the value of a key from $_SERVER
      *
      * @param string $key       Key whose value you wish to obtain
@@ -959,18 +902,11 @@ class Raven_Client
      */
     public function set_user_data($id, $email=null, $data=array())
     {
-<<<<<<< HEAD
-        $this->user_context(array_merge(array(
-            'id'    => $id,
-            'email' => $email,
-        ), $data));
-=======
         $user = array('id' => $id);
         if (isset($email)) {
             $user['email'] = $email;
         }
         $this->user_context(array_merge($user, $data));
->>>>>>> 90cbb75d3c0aefa1ed5adf207a35627a2cdcd012
     }
 
     /**
